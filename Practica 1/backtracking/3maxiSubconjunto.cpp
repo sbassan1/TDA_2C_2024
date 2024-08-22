@@ -7,7 +7,7 @@ int calcularSumaFinal(vector<vector<int>>& cuadrado, int k, vector<int> sol_parc
     int suma = 0;
 
     for (int i = 0; i < k; i++) {
-        for (int j = 0; j < k; j++) {  // Fixed index issue
+        for (int j = 0; j < k; j++) {
             suma += cuadrado[sol_parcial[i] - 1][sol_parcial[j] - 1];
         }
     }
@@ -17,7 +17,7 @@ int calcularSumaFinal(vector<vector<int>>& cuadrado, int k, vector<int> sol_parc
 void maxSubconjunto(vector<vector<int>>& cuadrado, int k, int n, vector<int>& sol_parcial, 
                     vector<int>& final, int& sumaMaxima, int i) {
 
-    if (sol_parcial.size() == k) {  // Case: valid solution found
+    if (sol_parcial.size() == k) {
         int sumaSolucion = calcularSumaFinal(cuadrado, k, sol_parcial);
         if (sumaSolucion > sumaMaxima) {
             final = sol_parcial;
@@ -26,7 +26,7 @@ void maxSubconjunto(vector<vector<int>>& cuadrado, int k, int n, vector<int>& so
         return;
     }
 
-    if (i == n) {  // Case: no valid solution
+    if (i == n) {
         return;
     }
 
@@ -37,8 +37,8 @@ void maxSubconjunto(vector<vector<int>>& cuadrado, int k, int n, vector<int>& so
 }
 
 int main() {
-    int n = 4;  // Number of elements in the set
-    int k = 3;  // Size of the subset
+    int n = 4;
+    int k = 3;
 
     vector<vector<int>> cuadrado{{0,10,10,1},{10,0,5,2},{10,5,0,1},{1,2,1,0}};
     vector<int> sol_parcial{};

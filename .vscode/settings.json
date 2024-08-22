@@ -6,6 +6,8 @@
         "ostream": "cpp",
         "initializer_list": "cpp",
         "utility": "cpp",
-        "xutility": "cpp"
-    }
+        "xutility": "cpp",
+        "tuple": "cpp"
+    },
+    "C_Cpp.errorSquiggles": "disabled"
 }
