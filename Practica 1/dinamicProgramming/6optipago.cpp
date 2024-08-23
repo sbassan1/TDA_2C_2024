@@ -1,42 +1,75 @@
 #include <iostream>
 #include <vector>
+#include <algorithm>
 
 using namespace std;
 
 int INF = 2e5;
 
-int cmpPagos( tuple<int,int> sol1, tuple<int,int> sol2){
-    if (get<0>(sol1) == get<0>(sol2)) return min(get<1>(sol1) , get<1>(sol2));
-    if (get<0>(sol1) < get<0>(sol2)) return get<1>(sol1); 
-    if (get<0>(sol1) > get<0>(sol2)) return get<1>(sol2); 
+pair<int, int> optipagoBackTracking(vector<int>& billetera, int i, int costo) {
+    if (costo <= 0) {
+        return {0, -costo}; // No se necesita más billetes
+    }
+    
+    if (i == 0) {
+        return {INF, INF}; // No se puede realizar el pago
+    }
+
+    pair<int, int> sinBillete = optipagoBackTracking(billetera, i - 1, costo);
+    
+    pair<int, int> conBillete = optipagoBackTracking(billetera, i - 1, costo - billetera[i - 1]);
+    conBillete.first += 1; 
+
+    if (conBillete.second < sinBillete.second) {
+        return conBillete;
+    } else if (conBillete.second == sinBillete.second) {
+        return min(conBillete, sinBillete);
+    } else {
+        return sinBillete;
+    }
 }
 
 
-int optipagoBackTracking(vector<int> billetera, int i, int costo){
+vector<vector<pair<int, int>>> mem;
+pair<int, int> optipagoTopDown(vector<int>& billetera, int i, int costo) {
 
-    if (i == 0){
-        int q = 0;
+    if (costo <= 0) {
+        return mem[i][costo] = {0, -costo}; // No se necesita más billetes
     }
 
-    if (costo <= 0){
-        return -costo; // devuelvo el costo
+    if (mem[i][costo] != {INF, INF}) return mem[i][costo];
+
+    if (i == 0) {
+        return mem[i][costo] = {INF, INF}; // No se puede realizar el pago
     }
 
-    if (i > billetera.size()) return INF // Si el indice sobrepaso la cantidad de billetes
 
-    return min((optipagoBackTracking(billetera, i + 1, costo), q) , 
-        (optipagoBackTracking(billetera, i + 1, costo - billetera[i]), q + 1))
+    pair<int, int> sinBillete = optipagoBackTracking(billetera, i - 1, costo);
+    
+    pair<int, int> conBillete = optipagoBackTracking(billetera, i - 1, costo - billetera[i - 1]);
+    conBillete.first += 1; 
 
+    if (conBillete.second < sinBillete.second) {
+        return  mem[i][costo] = conBillete;
+    } else if (conBillete.second == sinBillete.second) {
+        return mem[i][costo] = min(conBillete, sinBillete);
+    } else {
+        return mem[i][costo] = sinBillete;
+    }
 }
 
 int main() {
-
     int costo = 14;  // Costo del producto
     vector<int> billetera{2, 3, 5, 10, 20, 20};  // Cantidad de billetes y su denominacion
-    
-    optipagoTopDown(billetera, costo, 0, 0, 0, excesoMinimo, menorCantidadBilletesUsados);
+    int n = billetera.size();
 
-    cout << "Menor cantidad de billetes usados: " << menorCantidadBilletesUsados << endl;
+    vector<vector<pair<int, int> >> mem( n+1, (costo+1, {INF, INF}));
+
+    pair<int, int> resultadoBacktracking = optipagoBackTracking(billetera, n, costo);
+    pair<int, int> resultadoTopDown = optipagoTopDown(billetera, n, costo);
+
+    cout << "Menor cantidad de billetes usados (Backtracking): " << resultadoBacktracking.first << endl;
+    cout << "Menor cantidad de billetes usados (TopDown): " << resultadoTopDown.first << endl;
 
     return 0;
 }
