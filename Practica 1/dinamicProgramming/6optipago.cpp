@@ -34,13 +34,13 @@ vector<vector<pair<int, int>>> mem;
 pair<int, int> optipagoTopDown(vector<int>& billetera, int i, int costo) {
 
     if (costo <= 0) {
-        return mem[i][costo] = {0, -costo}; // No se necesita más billetes
+        return {0, -costo}; // No se necesita más billetes
     }
 
-    if (mem[i][costo] != {INF, INF}) return mem[i][costo];
+    if (mem[i][costo] != make_pair(INF, INF)) return mem[i][costo];
 
     if (i == 0) {
-        return mem[i][costo] = {INF, INF}; // No se puede realizar el pago
+        return {INF, INF}; // No se puede realizar el pago
     }
 
 
@@ -61,9 +61,13 @@ pair<int, int> optipagoTopDown(vector<int>& billetera, int i, int costo) {
 int main() {
     int costo = 14;  // Costo del producto
     vector<int> billetera{2, 3, 5, 10, 20, 20};  // Cantidad de billetes y su denominacion
+
+/*     int costo = 9;  // Costo del producto
+    vector<int> billetera{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 10};  // Cantidad de billetes y su denominacion */
+
     int n = billetera.size();
 
-    vector<vector<pair<int, int> >> mem( n+1, (costo+1, {INF, INF}));
+    mem = vector<vector<pair<int, int>>>(n + 1, vector<pair<int, int>>(costo + 1, {INF, INF}));
 
     pair<int, int> resultadoBacktracking = optipagoBackTracking(billetera, n, costo);
     pair<int, int> resultadoTopDown = optipagoTopDown(billetera, n, costo);
