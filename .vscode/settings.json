@@ -7,7 +7,8 @@
         "initializer_list": "cpp",
         "utility": "cpp",
         "xutility": "cpp",
-        "tuple": "cpp"
+        "tuple": "cpp",
+        "xtree": "cpp"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }
