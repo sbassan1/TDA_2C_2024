@@ -8,19 +8,19 @@ using namespace std;
 
 int INF = 2e5;
 
-int cortesEconomicos(vector<int>& p, int i, int l){
+int cortesEconomicos(vector<int>& p, int l, int i)
+{
 
-    int i == 
-
-
+    cortesEconomicos() + 
 }
+
 
 int main() {
 
-    int l = 10; // longuitud de vara de madera 
-    vector<int> p{2,4,7}; // las longuitudes de cortes
-    
-    cout << "Maxima ganancia posible: " << astroTrade(p , 0, 0, 0) << endl;
+    int l = 10;             // longitud 
+    vector<int> p{3,6,10};  // lista de cortes
+
+    cout << "Maxima ganancia posible: " <<  << endl;
 
     return 0;
 }
