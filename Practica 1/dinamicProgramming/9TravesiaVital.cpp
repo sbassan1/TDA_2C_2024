@@ -24,13 +24,13 @@ int TravesiaVital(vector<vector<int>>& terreno, int i, int j) {
     }
 
     if (i >= n || j >= m) {
-        return INF;
+        return -INF;
     }
 
     int movimientoDerecha = TravesiaVital(terreno, i, j + 1) + terreno[i][j];
     int movimientoAbajo = TravesiaVital(terreno, i + 1, j) + terreno[i][j];
 
-    if(movimientoDerecha < movimientoAbajo)
+    return max(movimientoDerecha, movimientoAbajo);
 }
 int main() {
 
