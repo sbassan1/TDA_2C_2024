@@ -30,8 +30,22 @@ int TravesiaVital(vector<vector<int>>& terreno, int i, int j) {
     int movimientoDerecha = TravesiaVital(terreno, i, j + 1) + terreno[i][j];
     int movimientoAbajo = TravesiaVital(terreno, i + 1, j) + terreno[i][j];
 
-    return max(movimientoDerecha, movimientoAbajo);
+    if (movimientoDerecha < 0 && movimientoAbajo < 0) {
+        return max(movimientoDerecha, movimientoAbajo);  // Retorna el más cercano a 0
+    }
+
+    if (movimientoDerecha < 0) {
+        return movimientoDerecha;
+    }
+    
+    if (movimientoAbajo < 0) {
+        return movimientoAbajo;
+    }
+
+    return 1;
 }
+
+
 int main() {
 
     int m = 3; // cantidad de filas
@@ -39,7 +53,7 @@ int main() {
 
     vector<vector<int>> terreno{{-2,-3,3},{-5,-10,1},{10,30,-5}}; 
     
-    int vida_final = TravesiaVital(terreno, 0, 0);
+    int vida_final = 1 - TravesiaVital(terreno, 0, 0);
 
     cout << "Maxima ganancia posible: " << vida_final << endl;
 
