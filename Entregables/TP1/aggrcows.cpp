@@ -12,6 +12,8 @@ using namespace std;
 4
 9 
  */
+int cantVacas( vector<int> &cubiculos, int i, int &distaciaMinimaMaxima, )
+
 
 int main() {
 

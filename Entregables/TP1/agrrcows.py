@@ -13,7 +13,18 @@ once put into a stall. To prevent the cows from hurting each other, FJ wants to 
 to the stalls, such that the minimum distance between any two of them is as large as possible. 
 What is the largest minimum distance?
 
+El problema pide asignar las vacas de la forma mas apartada posible unas de otras y ver cual es
+la distancia minima maxima entre ellas.
+
+
+Lo que tengo que hacer es guardar lsa vacas en todas las posiciones posibles hasta tener todas
+separadas con la mayor cantidad de distancia entre ellas y luego sacar cual es la menor distancia
  """
+
+
+def distanciarVacas( cubiculo :int, cantidadVacas:int, i :int, mayorDistanciaMenor :int):
+
+
 
 def main():
     t = int(input())
@@ -30,9 +41,6 @@ def main():
         cubiculo.sort()
 
         print(cubiculo)
-
-
-
 
 if __name__ == "__main__":
     main()
