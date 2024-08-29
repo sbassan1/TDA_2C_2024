@@ -1,13 +1,9 @@
 #include <iostream>
 #include <vector>
-#include <algorithm>
-#include <tuple>
 
 using namespace std;
 
-int INF = 2e5;
-
-/*
+/* 
 1
 5 3
 1
@@ -21,26 +17,24 @@ int main() {
 
     int t;   // T casos
     cin >> t;
-    int n,c; // N cubiculos, C vacas
-    cin >> n >> c;
 
+    for(int i = 0; i < t; i++){ // Hago loop por los casos
 
-    for(int i = 0; i < t; i++){ // Cantidad de casos
+        int n, c; // N cubiculos, C vacas
+        cin >> n >> c;
 
-        int numero_cubiculo;
-        vector<int> cubiculos(c);
+        vector<int> cubiculos(n);
 
-        for(int j = 0; j < n; j--){ // Cantidad de cubiculos
-            cin >> numero_cubiculo;
-            cubiculos.push_back(numero_cubiculo);
+        for(int j = 0; j < n; j++){ // Cantidad de cubiculos
+            cin >> cubiculos[j];
         }
 
-        for(int i = 0; i< cubiculos.size() ; i++){
-            cout << cubiculos[i] << endl;
+        cout << endl << "Vector Actual: ";
+        for(int x = 0; x < n ; x++){
+            cout << cubiculos[x] << " ";
         }
-        
+        cout << endl;
     }
-
 
     return 0;
 }
