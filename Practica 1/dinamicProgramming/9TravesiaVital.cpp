@@ -2,6 +2,7 @@
 #include <vector>
 #include <algorithm>
 #include <tuple>
+#include <map>
 
 using namespace std;
 
@@ -15,6 +16,8 @@ moverme un casillero abajo o uno a la derecha para llegar a (n,n). La idea es in
 maximizar la cantidad de puntos desde (0,0) hasta (nxn).
  */
 
+map<tuple<int,int>,int> mem;
+
 int TravesiaVital(vector<vector<int>>& terreno, int i, int j) {
     int n = terreno.size();   
     int m = terreno[0].size();
@@ -27,11 +30,15 @@ int TravesiaVital(vector<vector<int>>& terreno, int i, int j) {
         return -INF;
     }
 
+    tuple<int,int> key = make_tuple(i,j);
+
+    if(mem.find(key) != mem.end()) return mem[key];    
+
     int movimientoDerecha = TravesiaVital(terreno, i, j + 1) + terreno[i][j];
     int movimientoAbajo = TravesiaVital(terreno, i + 1, j) + terreno[i][j];
 
-    if (movimientoDerecha < 0 && movimientoAbajo < 0) {
-        return max(movimientoDerecha, movimientoAbajo);  // Retorna el más cercano a 0
+if (movimientoDerecha < 0 && movimientoAbajo < 0) { // Queremos los valores negativos
+        return mem[key] = max(movimientoDerecha, movimientoAbajo);  // Retorna el más cercano a 0
     }
 
     if (movimientoDerecha < 0) {
