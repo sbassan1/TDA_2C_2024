@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
-#include <map>
+#include <unordered_map>
 
 using namespace std;
 
@@ -17,41 +17,60 @@ using namespace std;
 
 // Necesito mantener calculado la distancia minima entre las vacas entre cubiculos de cada permutacion y devolverla la mayor
 
-int INF = 2e5;
+const int INF = 2e5;
 
-map<tuple<int, int, int, int>, int> mem;
+unordered_map<long long, int> mem;
+int mejorDistanciaGlobal = -INF;
+
+long long codificarClave(int vacasRestantes, int i, int ultimaPosicion, int distanciaMinima) {
+    return (((long long)vacasRestantes) << 40) | (((long long)i) << 30) | (((long long)ultimaPosicion) << 15) | distanciaMinima;
+}
 
 int distanciaMinimaMaxima(vector<int>& cubiculos, int vacasRestantes, int i, int ultimaPosicion, int distanciaMinima) {
-    if (vacasRestantes == 0) {
-        return distanciaMinima;  // Todas las vacas han sido colocadas, devolver la distancia mínima calculada
+
+    if (distanciaMinima <= mejorDistanciaGlobal) { // No puede mejorar la mejor solución actual
+        return -INF;  
     }
 
-    if (i == cubiculos.size()) {
-        return -INF;  // No se pueden colocar todas las vacas
+    if (vacasRestantes > cubiculos.size() - i) {   // No quedan espacios suficientes para mas vacas
+        return -INF;
     }
 
-    tuple<int, int, int, int> key = make_tuple(vacasRestantes, i, ultimaPosicion, distanciaMinima);
+    if (vacasRestantes == 0) {              // Me fijo si la solucion actual es mejor que la maxima encontrada hasta el momento
+        mejorDistanciaGlobal = max(mejorDistanciaGlobal, distanciaMinima);
+        return distanciaMinima;
+    }
 
-    if(mem.find(key) != mem.end()) return mem[key];
+    if (i == cubiculos.size()) {    // En el caso de quedarme sin espacios y hay vacas
+        return -INF;
+    }
+
+    long long key = codificarClave(vacasRestantes, i, ultimaPosicion, distanciaMinima); // Consigo una key para el map
+
+    if (mem.find(key) != mem.end()) return mem[key];
+
+    if (ultimaPosicion != -1 && cubiculos[i] - ultimaPosicion <= mejorDistanciaGlobal) {
+        return -INF;
+    }
 
     int noAgregamosVaca = distanciaMinimaMaxima(cubiculos, vacasRestantes, i + 1, ultimaPosicion, distanciaMinima);
 
-    int nuevaDistanciaMinima = distanciaMinima; // Nosotros comenzamos sin agregar vacas con distancia minima en INT MAX
+    int nuevaDistanciaMinima = distanciaMinima;
 
-    if (ultimaPosicion != -1) {  // Si no es la primera vaca
-        nuevaDistanciaMinima = min(distanciaMinima, cubiculos[i] - ultimaPosicion); // Verificamos que la distancia entre la nueva vaca es menor
+    if (ultimaPosicion != -1) {
+        nuevaDistanciaMinima = min(distanciaMinima, cubiculos[i] - ultimaPosicion);
     }
-    int agregamosVaca = distanciaMinimaMaxima(cubiculos, vacasRestantes - 1, i + 1, cubiculos[i], nuevaDistanciaMinima); 
+    int agregamosVaca = distanciaMinimaMaxima(cubiculos, vacasRestantes - 1, i + 1, cubiculos[i], nuevaDistanciaMinima);
 
-    return mem[key] = max(noAgregamosVaca, agregamosVaca);
+    return mem[key] = max(agregamosVaca, noAgregamosVaca);
 }
 
 int main() {
-    int t;  // T casos
+    int t;
     cin >> t;
 
-    while (t--) {
-        int n, c;  // N cubículos, C vacas
+    while (t > 0) {
+        int n, c;
         cin >> n >> c;
 
         vector<int> cubiculos(n);
@@ -59,10 +78,15 @@ int main() {
             cin >> cubiculos[i];
         }
 
-        sort(cubiculos.begin(), cubiculos.end()); // Acá sorteo la lista de posiciones para tenerlas de menor a mayor
+        sort(cubiculos.begin(), cubiculos.end());
 
-        int mejorDistanciaMinima = distanciaMinimaMaxima(cubiculos, c, 0, -1, INF);
+        mem.clear();
+        mejorDistanciaGlobal = -INF;
+
+        int mejorDistanciaMinima = distanciaMinimaMaxima(cubiculos, c - 1, 1, cubiculos[0], INF);
         cout << mejorDistanciaMinima << endl;
+
+        t--;
     }
 
     return 0;
