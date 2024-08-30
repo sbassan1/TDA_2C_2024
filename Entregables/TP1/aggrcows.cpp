@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <map>
 
 using namespace std;
 
@@ -16,6 +17,8 @@ using namespace std;
 
 // Necesito mantener calculado la distancia minima entre las vacas entre cubiculos de cada permutacion y devolverla la mayor
 
+map<tuple<int, int, int, int>, int> mem;
+
 int distanciaMinimaMaxima(vector<int>& cubiculos, int vacasRestantes, int i, int ultimaPosicion, int distanciaMinima) {
     if (vacasRestantes == 0) {
         return distanciaMinima;  // Todas las vacas han sido colocadas, devolver la distancia mínima calculada
@@ -24,6 +27,10 @@ int distanciaMinimaMaxima(vector<int>& cubiculos, int vacasRestantes, int i, int
     if (i == cubiculos.size()) {
         return -INT_MAX;  // No se pueden colocar todas las vacas
     }
+
+    tuple<int, int, int, int> key = make_tuple(vacasRestantes, i, ultimaPosicion, distanciaMinima);
+
+    if(mem.find(key) != mem.end()) return mem[key];
 
     int noAgregamosVaca = distanciaMinimaMaxima(cubiculos, vacasRestantes, i + 1, ultimaPosicion, distanciaMinima);
 
@@ -34,7 +41,7 @@ int distanciaMinimaMaxima(vector<int>& cubiculos, int vacasRestantes, int i, int
     }
     int agregamosVaca = distanciaMinimaMaxima(cubiculos, vacasRestantes - 1, i + 1, cubiculos[i], nuevaDistanciaMinima); 
 
-    return max(noAgregamosVaca, agregamosVaca);
+    return mem[key] = max(noAgregamosVaca, agregamosVaca);
 }
 
 int main() {
