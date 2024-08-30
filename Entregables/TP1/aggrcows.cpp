@@ -17,6 +17,8 @@ using namespace std;
 
 // Necesito mantener calculado la distancia minima entre las vacas entre cubiculos de cada permutacion y devolverla la mayor
 
+int INF = 2e5;
+
 map<tuple<int, int, int, int>, int> mem;
 
 int distanciaMinimaMaxima(vector<int>& cubiculos, int vacasRestantes, int i, int ultimaPosicion, int distanciaMinima) {
@@ -25,7 +27,7 @@ int distanciaMinimaMaxima(vector<int>& cubiculos, int vacasRestantes, int i, int
     }
 
     if (i == cubiculos.size()) {
-        return -INT_MAX;  // No se pueden colocar todas las vacas
+        return -INF;  // No se pueden colocar todas las vacas
     }
 
     tuple<int, int, int, int> key = make_tuple(vacasRestantes, i, ultimaPosicion, distanciaMinima);
@@ -59,7 +61,7 @@ int main() {
 
         sort(cubiculos.begin(), cubiculos.end()); // Acá sorteo la lista de posiciones para tenerlas de menor a mayor
 
-        int mejorDistanciaMinima = distanciaMinimaMaxima(cubiculos, c, 0, -1, INT_MAX);
+        int mejorDistanciaMinima = distanciaMinimaMaxima(cubiculos, c, 0, -1, INF);
         cout << mejorDistanciaMinima << endl;
     }
 
