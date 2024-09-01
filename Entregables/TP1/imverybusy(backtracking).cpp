@@ -20,6 +20,20 @@ int maximasActividades(vector<pair<int, int>>& tareas, int i, int ultimoSeleccio
     return memo[i][ultimoSeleccionado + 1] = max(hagoActividad, noHagoActividad);
 }
 
+
+int selectorMaxActividades(vector<pair<int, int>>& tareas, int n) { // Seleccion greedy sin memoizacion o algo antes
+    int cont = 1;
+    int k = 0;
+    for (int m = 1; m < n; m++) {
+        if (tareas[m].first >= tareas[k].second) { 
+            cont++; 
+            k = m;
+        }
+    }
+    return cont;
+}
+
+
 int main() {
     int t; // Numero de tests
     cin >> t;
@@ -42,7 +56,7 @@ int main() {
 
         vector<vector<int>> memo(n, vector<int>(n + 1, -1)); // Inicializo la mem con n espacios en -1
 
-        int resultado = maximasActividades(tareas, 0, -1, memo);
+        int resultado = selectorMaxActividades(tareas, n);
 
         soluciones.push_back(resultado);
 
