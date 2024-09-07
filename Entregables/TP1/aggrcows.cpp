@@ -15,7 +15,7 @@ using namespace std;
 9 
  */
 
-// Necesito mantener calculado la distancia minima entre las vacas entre cubiculos de cada permutacion y devolverla la mayor
+// Necesito mantener calculado la distancia minima entre las vacas entre cubiculos de cada permutacion y devolverla la mayor.
 
 const int INF = 2e5;
 
