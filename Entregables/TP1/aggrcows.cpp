@@ -1,8 +1,6 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
-#include <unordered_map>
-
 using namespace std;
 
 /* 
@@ -15,76 +13,71 @@ using namespace std;
 9 
  */
 
-// Necesito mantener calculado la distancia minima entre las vacas entre cubiculos de cada permutacion y devolverla la mayor.
-
 const int INF = 2e5;
 
-unordered_map<long long, int> mem;
-int mejorDistanciaGlobal = -INF;
+bool esDistanciaValida(vector<int> cubiculos, int cantCubiculos, int cantVacas, int distMedia){
 
-long long codificarClave(int vacasRestantes, int i, int ultimaPosicion, int distanciaMinima) {
-    return (((long long)vacasRestantes) << 40) | (((long long)i) << 30) | (((long long)ultimaPosicion) << 15) | distanciaMinima;
+    int posicionActual = cubiculos[0]; // Donde vamos guardando vacas
+
+    int vacas = 1; // Cantidad de vacas que pusimos para verificar
+
+    for( int i = 1 ; i < cantCubiculos ; i++){ // recorremos todas las posiciones del cubiculo
+
+        if (cubiculos[i] - posicionActual >= distMedia){ // Si esto vale podemos agregar una vaca con la distanciaMedia
+            vacas++;
+            posicionActual = cubiculos[i];
+        }
+
+        if (vacas == cantVacas) return true; // Si pusimos todas las vacas esta distancia es la optima 
+
+    }
+
+    return false; // Si no llenamos las posiciones con todas las vacas entonces no es la solucion optima
 }
 
-int distanciaMinimaMaxima(vector<int>& cubiculos, int vacasRestantes, int i, int ultimaPosicion, int distanciaMinima) {
+int vacasEnojadas(vector<int> cubiculos, int cantCubiculos, int cantVacas){
 
-    if (distanciaMinima <= mejorDistanciaGlobal) { // No puede mejorar la mejor solución actual
-        return -INF;  
+    int izq = 1;
+    int der = cubiculos[cantCubiculos-1];
+
+    int res = -1; // Si no hay una solucion (hay mas vacas que cantCubiculos)
+
+    if (cantCubiculos < cantVacas) {
+        return -1;
     }
 
-    if (vacasRestantes > cubiculos.size() - i) {   // No quedan espacios suficientes para mas vacas
-        return -INF;
-    }
+    while( izq < der){
+        int distMedia = (izq + der) / 2; // Distancia media entre los dos puntos
 
-    if (vacasRestantes == 0) {              // Me fijo si la solucion actual es mejor que la maxima encontrada hasta el momento
-        mejorDistanciaGlobal = max(mejorDistanciaGlobal, distanciaMinima);
-        return distanciaMinima;
-    }
-
-    if (i == cubiculos.size()) {    // En el caso de quedarme sin espacios y hay vacas
-        return -INF;
-    }
-
-    long long key = codificarClave(vacasRestantes, i, ultimaPosicion, distanciaMinima); // Consigo una key para el map
-
-    if (mem.find(key) != mem.end()) return mem[key];
-
-    if (ultimaPosicion != -1 && cubiculos[i] - ultimaPosicion <= mejorDistanciaGlobal) {
-        return -INF;
-    }
-
-    int noAgregamosVaca = distanciaMinimaMaxima(cubiculos, vacasRestantes, i + 1, ultimaPosicion, distanciaMinima);
-
-    int nuevaDistanciaMinima = distanciaMinima;
-
-    if (ultimaPosicion != -1) {
-        nuevaDistanciaMinima = min(distanciaMinima, cubiculos[i] - ultimaPosicion);
-    }
-    int agregamosVaca = distanciaMinimaMaxima(cubiculos, vacasRestantes - 1, i + 1, cubiculos[i], nuevaDistanciaMinima);
-
-    return mem[key] = max(agregamosVaca, noAgregamosVaca);
+        if ( esDistanciaValida(cubiculos, cantCubiculos, cantVacas, distMedia)){
+            res = max(res, distMedia);
+            izq = distMedia + 1; // Actualizamos la posicion 
+        }
+        else{
+            der = distMedia;
+        }
+    } 
+    return res;
 }
+
 
 int main() {
     int t;
     cin >> t;
 
     while (t > 0) {
-        int n, c;
+        int n, c; // N cantidad de cubiculos, C cantidad de vacas
         cin >> n >> c;
 
         vector<int> cubiculos(n);
-        for (int i = 0; i < n; i++) {
+
+        for (int i = 0; i < n; i++) { // Guardamos distancias de cubiculos.
             cin >> cubiculos[i];
         }
 
-        sort(cubiculos.begin(), cubiculos.end());
+        sort(cubiculos.begin(), cubiculos.end()); // O(n log(n)) para ordenar elementos primero
 
-        mem.clear();
-        mejorDistanciaGlobal = -INF;
-
-        int mejorDistanciaMinima = distanciaMinimaMaxima(cubiculos, c - 1, 1, cubiculos[0], INF);
-        cout << mejorDistanciaMinima << endl;
+        cout << vacasEnojadas(cubiculos, n , c) << endl;
 
         t--;
     }
