@@ -5,32 +5,38 @@
 
 using namespace std;
 
+/* 
+Tengo que conseguir el maximo subconjunto ascendiente (Numeros Negros) y decendiente 
+(Numberos Blancos) de un vector de ints de forma recursiva. (No llegue a resolverlo 
+con la forma binaria de las formulas) de tal modo que maximice la cantidad de 
+elementos en ambos y minimize la cantidad de ints sin usar.
 
-int blackOrWhite(vector<int> &listaNumeros, int i, int numActual, vector<bool> solParcial, int &max, int &maxActual){
+Tengo que fijarme en los numeros blancos y negros. 
+
+- Si el numero actual es mayor al ultimo numero negro entonces es candidato a ser
+el siguiente numero negro.
+- Si el numero actual es menor al ultimo numero blanco entonces es candidato a ser
+el siguiente numero blanco.
+- Quiero maximizar la cantidad de numeros negros y blancos (los numeros no pueden ser
+negros y blancos a la vez, si elijo uno entonces el numero en ese espacio solo puede
+ser parte de un color). 
 
 
-    if (i == n){
+Puedo:
 
-        max
+- Agregar el numero actual a negros
+- Agregar el numero actual a blancos
+- No agregar el numero actual a ninguno.
 
-    }
+Ver cual de los tres es la opcion que te de el maximo numero de elementos pintados.
 
+ */
 
-    int agregoNumero =   blackOrWhite(listaNumeros, i+1, listaNumeros[i], solParcial, max + 1);
-    int noAgregoNumero = blackOrWhite(listaNumeros, i+1, numActual, solParcial, max);
+int blackOrWhite(vector<int> &listaNumeros, int i, int ultimoBlanco, int ultimoNegro, ){
 
-    if (numActual > listaNumeros[i]){ // Si por ejemplo tengo 6 y desp 5 no puedo agregar el 5 
-        noagregoNumero()
-    }else{
-
-        solParcial[i] = true;
-        agregoNumero(listaNumeros, i+1,)
-        solParcial[i] = false;
-        noagrego(listaNumeros, i+1,)
-
-        noagrego()
-    }
+    if (i == n) return 0;  
     
+      
 }
 
 int main(){
