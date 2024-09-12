@@ -2,10 +2,14 @@
 #include <vector>
 #include <algorithm>
 #include <tuple>
+#include <map>
 
 using namespace std;
 
 int INF = 9999;
+
+map<pair<int, vector<int>>, int> memo; // Mapa para memorización
+
 
 bool sePuedeAgregar(const vector<tuple<int, int>>& cajas, const vector<int>& cajasAgregadas) {
     int n = cajasAgregadas.size();
@@ -23,16 +27,24 @@ bool sePuedeAgregar(const vector<tuple<int, int>>& cajas, const vector<int>& caj
 
 int pilaCauta(vector<tuple<int, int>>& cajas, int n, int i, vector<int> cajasAgregadas, int pesoUltimaCaja) {
 
+    pair<int, vector<int>> estado = {i, cajasAgregadas};
+
+    if (memo.find(estado) != memo.end()) {
+        return memo[estado]; // Devolvemos el valor memorizado
+    }
+
     if (n == i) return cajasAgregadas.size(); // Devuelvo la cantidad de cajas al final
+
+     int res = pilaCauta(cajas, n, i + 1, cajasAgregadas, pesoUltimaCaja);
 
     if (sePuedeAgregar(cajas, cajasAgregadas) && pesoUltimaCaja > get<0>(cajas[i])) {
         cajasAgregadas.push_back(i);
-        int res = max(pilaCauta(cajas, n, i + 1, cajasAgregadas, get<0>(cajas[i])), pilaCauta(cajas, n, i + 1, cajasAgregadas, pesoUltimaCaja));
+        res = max(pilaCauta(cajas, n, i + 1, cajasAgregadas, get<0>(cajas[i])), pilaCauta(cajas, n, i + 1, cajasAgregadas, pesoUltimaCaja));
         cajasAgregadas.pop_back();  // Deshacer la acción
-        return res;
-    } else {
-        return pilaCauta(cajas, n, i + 1, cajasAgregadas, pesoUltimaCaja);
     }
+
+    memo[estado] = res;
+    return res;
 }
 
 int main() {
