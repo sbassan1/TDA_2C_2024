@@ -1,22 +1,51 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <tuple>
 
 using namespace std;
 
-int pilaCauta(vector<tuples<int,int>> cajas, int n, int i, int soporteActual, int )
+int INF = 9999;
+
+bool sePuedeAgregar(const vector<tuple<int, int>>& cajas, const vector<int>& cajasAgregadas) {
+    int n = cajasAgregadas.size();
+    
+    for (int i = 0; i < n; ++i) {
+        int cajaSoporte = get<1>(cajas[cajasAgregadas[i]]); // obtengo el soporte de la caja actual
+        int sum = 0;
+        for (int j = i + 1; j < n; ++j) {
+            sum += get<0>(cajas[cajasAgregadas[j]]); // sumo el peso de las cajas superiores
+            if (cajaSoporte < sum) return false; // Si sobrepasa el soporte, no es válida
+        }
+    }
+    return true;
+}
+
+int pilaCauta(vector<tuple<int, int>>& cajas, int n, int i, vector<int> cajasAgregadas, int pesoUltimaCaja) {
+
+    if (n == i) return cajasAgregadas.size(); // Devuelvo la cantidad de cajas al final
+
+    if (sePuedeAgregar(cajas, cajasAgregadas) && pesoUltimaCaja > get<0>(cajas[i])) {
+        cajasAgregadas.push_back(i);
+        int res = max(pilaCauta(cajas, n, i + 1, cajasAgregadas, get<0>(cajas[i])), pilaCauta(cajas, n, i + 1, cajasAgregadas, pesoUltimaCaja));
+        cajasAgregadas.pop_back();  // Deshacer la acción
+        return res;
+    } else {
+        return pilaCauta(cajas, n, i + 1, cajasAgregadas, pesoUltimaCaja);
+    }
+}
 
 int main() {
     int n = 5; // cantidad de cajas
-    vector<tuples<int,int>> cajas{{19,15},{7,13},{5,7},{6,8},{1,2}}; // Donde las tuplas (int,int) representan peso,soporte
+    vector<tuple<int, int>> cajas{{19, 15}, {7, 13}, {5, 7}, {6, 8}, {1, 2}}; // Donde las tuplas (int,int) representan peso,soporte
 
-    sort(v.begin(), v.end(), [](const tuple<int, int>& a, const tuple<int, int>& b) {
-        return get<0>(a) < get<0>(b);
-    }); // Ahora tengo las cajas organizadas por peso.
+    sort(cajas.begin(), cajas.end(), [](const tuple<int, int>& a, const tuple<int, int>& b) {
+        return get<0>(a) > get<0>(b); // Ordenar por peso descendente
+    });
 
+    vector<int> cajasAgregadas;
 
-
-    cout << "Maxima cant cajas: " << pilasCauta(pesosOrdenados, soportesOrdenados, n, 0, 0, INT_MAX) << endl;
+    cout << "Máxima cantidad de cajas: " << pilaCauta(cajas, n, 0, cajasAgregadas, INF) << endl;
 
     return 0;
 }
