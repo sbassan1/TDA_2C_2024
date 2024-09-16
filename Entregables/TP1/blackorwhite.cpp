@@ -1,14 +1,12 @@
 #include <iostream>
 #include <vector>
-#include <utility> 
 #include <algorithm>
-#include <map>
 
 /*
 Razonamiento: 
 
-Tengo que conseguir el maximo subconjunto ascendiente (Numeros Negros) y decendiente 
-(Numberos Blancos) de una secuencia representada por un vector de ints de tal modo que 
+Tengo que conseguir el maximo subconjunto ascendiente (Numeros Negros) y descendiente 
+(Numeros Blancos) de una secuencia representada por un vector de ints de tal modo que 
 maximize la cantidad de elementos negros y blancos (Use la mayor cantidad de numeros en total).
 
 Tengo que fijarme en los numeros de la secuencia:
@@ -32,33 +30,34 @@ Lo que puedo hacer en la recursion entonces es:
 using namespace std;
 
 int INF = 99999999;
-map<tuple<int, int, int>, int> memo;
 
-int blackOrWhite(vector<int>& secuenciaNumeros, int i, int n, int ultimoBlanco, int ultimoNegro, int maxActual) {
+int blackOrWhite(vector<int>& secuenciaNumeros, int i, int n, int ultimoBlanco, int ultimoNegro, int maxActual, vector<vector<vector<int>>>& memo) {
     if (i == n) return 0;
 
-    tuple<int, int, int> decisionActual = make_tuple(i, ultimoBlanco, ultimoNegro);
-    if (memo.find(decisionActual) != memo.end()) return memo[decisionActual];
+    int ajustadoBlanco = ultimoBlanco + 1;
+    int ajustadoNegro = ultimoNegro + 1;
+
+    if (memo[i][ajustadoBlanco][ajustadoNegro] != -1) return memo[i][ajustadoBlanco][ajustadoNegro];
 
     int numRestantes = n - i;
     int maxDecisionActual = maxActual + numRestantes;
-    if (maxDecisionActual <= memo[decisionActual]) {
+    if (memo[i][ajustadoBlanco][ajustadoNegro] >= maxDecisionActual) {
         return 0;
     }
 
     int agregoNegro = 0, agregoBlanco = 0, agregoNinguno;
-    agregoNinguno = blackOrWhite(secuenciaNumeros, i+1, n, ultimoBlanco, ultimoNegro, maxActual);
+    agregoNinguno = blackOrWhite(secuenciaNumeros, i+1, n, ultimoBlanco, ultimoNegro, maxActual, memo);
 
-    if (secuenciaNumeros[i] > ultimoNegro) {
-        agregoNegro = blackOrWhite(secuenciaNumeros, i+1, n, ultimoBlanco, secuenciaNumeros[i], maxActual + 1) + 1;
+    if (ultimoNegro == -1 || secuenciaNumeros[i] > secuenciaNumeros[ultimoNegro]) {
+        agregoNegro = blackOrWhite(secuenciaNumeros, i+1, n, ultimoBlanco, i, maxActual + 1, memo) + 1;
     }
 
-    if (secuenciaNumeros[i] < ultimoBlanco) {
-        agregoBlanco = blackOrWhite(secuenciaNumeros, i+1, n, secuenciaNumeros[i], ultimoNegro, maxActual + 1) + 1;
+    if (ultimoBlanco == -1 || secuenciaNumeros[i] < secuenciaNumeros[ultimoBlanco]) {
+        agregoBlanco = blackOrWhite(secuenciaNumeros, i+1, n, i, ultimoNegro, maxActual + 1, memo) + 1;
     }
 
-    memo[decisionActual] = max({agregoNegro, agregoBlanco, agregoNinguno});
-    return memo[decisionActual];
+    memo[i][ajustadoBlanco][ajustadoNegro] = max({agregoNegro, agregoBlanco, agregoNinguno});
+    return memo[i][ajustadoBlanco][ajustadoNegro];
 }
 
 int main() {
@@ -73,10 +72,10 @@ int main() {
             cin >> secuenciaNumeros[i];
         }
 
-        memo.clear();
+        vector<vector<vector<int>>> memo(n, vector<vector<int>>(n+1, vector<int>(n+1, -1)));        
         int maxActual = 0;
 
-        cout << n - blackOrWhite(secuenciaNumeros, 0, n, INF, -INF, maxActual) << endl;
+        cout << n - blackOrWhite(secuenciaNumeros, 0, n, -1, -1, maxActual, memo) << endl;
     }
     return 0;
 }
