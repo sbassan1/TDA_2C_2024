@@ -35,3 +35,19 @@ int main() {
 
     return 0;
 }
+
+/* 
+b)
+
+Este algorimo recorre elemento por elemento de cada uno hasta que uno termina, de tal
+modo que es O(n) donde n es el tamaño del conjunto mas grande entre los 2.
+
+La complejidad espacial del problema es O(1) ya que guardamos ambos indices y un contador  
+ */
+
+
+/* 
+c)
+
+
+ */
