@@ -49,5 +49,14 @@ La complejidad espacial del problema es O(1) ya que guardamos ambos indices y un
 /* 
 c)
 
+Tenemos dos conjuntos de numeros, los cuales vamos a iterar con dos indices, en el algoritmo
+si cualquiera de los dos indices llega a su fin, entonces el ciclo corta y el algoritmo devuelve
+la cantidad del contador.
 
+Si ambos conjuntos estan en orden ascendiente entonces puedo ir buscando si el numero tiene
+una pareja en el otro iterando, en el caso de sobrepasar con -+1 vamos al siguiente numero
+en el primer conjunto. Esto continua hasta que uno de los dos conjuntos ya no tiene mas numeros
+a comparar.
  */
+
+
