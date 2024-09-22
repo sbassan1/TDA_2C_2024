@@ -26,7 +26,15 @@ int main() {
 }
 
 
-/* 
-Para llegar a n log k puedo crear un max heap de tamaño k en los cuales voy agregando
-de a k elementos.
+/*
+
+b)
+Crear un heap y agregar todos los elementos a este O(n log n), tambien se puede con un
+merge sort.
+
+c)
+Creamos un heap de k elementos
+Iteramos por todo el vector agregando y sacando elementos, con esto llegamos O (n log k)
+Sumamos el tope k veces sumandolo a la sum.
  */
+
