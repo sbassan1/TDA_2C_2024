@@ -3,8 +3,7 @@
         {
             "name": "Win32",
             "includePath": [
-                "${workspaceFolder}/**",
-                "C:\\Users\\santi\\Documents\\Santiago\\FACU pdfs\\algo3\\Backtrackig Ejemplos"
+                "${workspaceFolder}/**", 
             ],
             "defines": [
                 "_DEBUG",
