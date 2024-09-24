@@ -47,6 +47,7 @@ Complejidad : O( n^d log n) == O(n log n)
 int main() {
 
     vector<int> numeros = {8, 6, 7, 4, 5, 1, 3, 2};
+    //vector<int> numeros = {8, 4, 7, 6, 5, 1, 3, 2};
 
 
     if (esMasIzquierda(numeros, 0, numeros.size() - 1)) {
