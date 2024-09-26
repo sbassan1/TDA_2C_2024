@@ -1,0 +1,125 @@
+
+T(n) = a T(n/b) + f(n)
+
+d = log b (a)
+
+Caso 1:
+Si f(n) = O(n^c) donde c < d, entonces O(n^d)
+
+Caso 2:
+Si f(n) = O(n^d), entonces O(n^d * lg n)
+
+Caso 3:
+Si f(n) = O(n^c) donde c > d, y también
+a a f(n/b) <= k * f(n) para algún k < 1, entonces O(f(n))
+
+
+1) T (n) = T (n −2) + 5 = 
+
+T(n - 2) = t (n - 4) + 5 
+T(n - 4) = t (n - 6) + 5 
+T(n - 6) = t (n - 8) + 5 
+
+El problema disminuye en 2 pasos cada vez -> 
+
+n/2 Por lo tanto T(n) = T(0) + 5(n/2) la suma da en si O(n)
+
+2) T (n) = T (n −1) + n
+
+T(n-1) = T(n - 2) + (n-1)
+T(n-2) = T(n - 3) + (n-2)
+T(n-3) = T(n - 4) + (n-3)
+
+Sumando todos los terminos hasta n da T(n) = (n-1) + (n-2) hasta n
+
+O(n^2)
+
+3) T (n) = T (n −1) + √n
+
+T(n-1) = T (n - 2) + sqrt(n-1)
+T(n-2) = T (n - 3) + sqrt(n-2)
+T(n-3) = T (n - 4) + sqrt(n-3)
+
+Esto sumando terminos queda con O(sqrt(n))
+
+4) T (n) = T (n −1) + n^2
+
+T(n-1) = T (n-2) + (n-1)^2
+T(n-2) = T (n-3) + (n-2)^2
+T(n-3) = T (n-4) + (n-3)^2
+
+Sumando las n^2 desde 1 hasta n tenemos una suma cuadratica de n^2 que da n^3
+
+O(n^3)
+
+5) T (n) = 2T (n −1)
+
+T(n-1) = 2 T(n-2)
+T(n-2) = 2 T(n-3)
+T(n-3) = 2 T(n-4)
+
+Sumando da que tenemos una especie de 2^n * T(n)
+
+O(2^n)
+
+6) T (n) = T (n/2) + n
+
+a = 1
+b = 2
+c = 1
+
+d = 0
+c > d ==> O(n)
+
+7) T (n) = T (n/2) + √n
+
+a = 1
+b = 2
+c = 1/2
+
+d = 0
+c > d ==> O(n^1/2)
+
+8) T (n) = T (n/2) + n^2
+
+a = 1
+b = 2
+c = 2
+
+d = 0
+
+c > d ==> O (n^2)
+
+9) T (n) = 2T (n − 4)
+
+Como el 5) vamos diviendo el problema en 2 todo el rato O(n^2)
+
+10) T (n) = 2T (n/2) + log n
+
+a = 2
+b = 2
+d = 1
+
+como log n es menor a n^1 entonces c < 1
+
+c < d => O(n^d) == O(n^1)
+
+11) T (n) = 3T (n/4)
+
+a = 3
+b = 4 
+c = 0 por que f(n) = O(1)
+
+d = log 3 (4) < 1 pero > 0
+
+c < s => O (n^1)
+
+12) T (n) = 3T (n/4) + n
+
+a = 3
+b = 4
+c = 1
+
+d = log 3 (4) < 1 pero > 0
+
+como c > d ==> O(n^c) == O(n^1)
