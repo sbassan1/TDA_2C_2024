@@ -1,0 +1,7 @@
+
+
+Queremos probar que todos grafo no trivial tiene al menos 2 vertices de mismo grado
+
+El grado de un vértice en un grafo es el número de aristas incidentes a él
+
+    

@@ -1,0 +1,48 @@
+
+
+
+Demostrar con induccion en la cantidad de aristas, que todo digrafo D satisface
+
+Sum {v e V} {o/} D.in(v) = Sum {v e V} {o/} D.out(v) = |E(D)|
+
+
+Sea D = (V,E)
+
+# aristas de entrada = # aristas de salida = cantidad de aristas.
+
+Para el CB, la cantidad de aristas es 1. para un u y v (v,u)
+
+La cantidad de din = 1 y dout = 1 y |E(d)| = 1, asi que vale.
+
+Si tenemos otro D' tal que D' = D\(u,v)
+
+entonces:
+
+Sum {v e D} Din(V)  + 1 =  Sum {v e D'} Din(V)
+Sum {v e D} Dout(V) + 1 = Sum {v e D'} Dout(V)
+|E(D)| = 1 + |E(D')|
+
+Si vale para E(D) -> E(D')
+
+Ahora la HIPOTESIS INDUCTIVA es = 
+
+Sum {v e D} Din(V) = Sum {v e D} Dout(V) = |E(D)|
+
+Queremos ver que valga para D' Sum {v e D'} Din(V) = Sum {v e D'} Dout(V) = |E(D')|
+
+Tenemos que:
+
+Sum {v e D} Din(V) = Sum {v e D} Dout(V) = |E(D)|
+
+Si sacamos (u,v) a D:
+
+Sum {v e D\(u,v)} Din(v) + 1 = Sum {v e D\(u,v)} Dout(v) + 1 = |E(D\(u,v))|
+
+Como definimos D' a un D con un (u,v) eliminado de D:
+
+Sum {v e D'} Din(V) = Sum {v e D'} Dout(V) = |E(D')|
+
+Probando que vale.
+
+
+CREO QUE NO VALE ASI PERO QSY.
