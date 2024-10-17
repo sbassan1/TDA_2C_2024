@@ -2,47 +2,47 @@
 #include <vector>
 using namespace std;
 
-void DFSRec(const vector<vector<int>> &adj, vector<bool> &visited, int s, int cont, int& conjA) {
+void DFSRec(const vector<vector<long long>> &adj, vector<bool> &visited, long long s, long long cont, long long& conjA) {
     visited[s] = true;
 
     if (cont % 2 == 0) { // Contar vértices de nivel par en DFS (conjunto A)
         conjA++;
     }
 
-    for (int i : adj[s]) {
+    for (long long i : adj[s]) {
         if (!visited[i]) {
             DFSRec(adj, visited, i, cont + 1, conjA);
         }
     }
 }
 
-void DFS(const vector<vector<int>> &adj, int s, int& conjA) {
+void DFS(const vector<vector<long long>> &adj, long long s, long long& conjA) {
     vector<bool> visited(adj.size(), false);
     DFSRec(adj, visited, s, 0, conjA);
 }
 
 int main() {
-    int t;  // número de vértices
+    long long t;  // número de vértices
     cin >> t;
 
-    vector<vector<int>> adj(t + 1);
+    vector<vector<long long>> adj(t + 1);
 
-    for (int i = 0; i < t - 1; i++) { // t-1 aristas
-        int a, b;
+    for (long long i = 0; i < t - 1; i++) { // t-1 aristas
+        long long a, b;
         cin >> a >> b;
         adj[a].push_back(b); 
         adj[b].push_back(a); 
     }
 
-    int conjA = 0; // nro de elementos del conjunto A
-    int s = 1;
+    long long conjA = 0; // nro de elementos del conjunto A
+    long long s = 1;
     DFS(adj, s, conjA);
 
-    int conjB = t - conjA;
+    long long conjB = t - conjA;
 
-    int cantTotalAristGrafBipart = conjA * conjB;
+    long long cantTotalAristGrafBipart = conjA * conjB;
 
-    int aristActuales = t - 1;
+    long long aristActuales = t - 1;
 
     cout << cantTotalAristGrafBipart - aristActuales << endl;
 
