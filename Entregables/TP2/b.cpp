@@ -27,7 +27,7 @@ int main() {
 
     vector<vector<int>> adj(t + 1);
 
-    for (int i = 0; i < t - 1; i++) { // t-1 aristas (en un árbol siempre hay t-1 aristas)
+    for (int i = 0; i < t - 1; i++) { // t-1 aristas
         int a, b;
         cin >> a >> b;
         adj[a].push_back(b); 
@@ -38,9 +38,11 @@ int main() {
     int s = 1;
     DFS(adj, s, conjA);
 
-    int conjB = t - conjA; // El otro conjunto es el resto de los vértices
+    int conjB = t - conjA;
+
     int cantTotalAristGrafBipart = conjA * conjB;
-    int aristActuales = t - 1;  // El árbol tiene exactamente t-1 aristas
+
+    int aristActuales = t - 1;
 
     cout << cantTotalAristGrafBipart - aristActuales << endl;
 
